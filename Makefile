@@ -5,6 +5,15 @@ VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HE
 TARGETOS=linux
 TARGETARCH=amd64
 
+linux:
+	$(MAKE) image TARGETOS=linux TARGETARCH=${TARGETARCH}
+
+windows:
+	$(MAKE) image TARGETOS=windows TARGETARCH=${TARGETARCH}
+
+macos:
+	$(MAKE) image TARGETOS=darwin TARGETARCH=${TARGETARCH}
+
 
 format:
 	gofmt -s -w ./
@@ -29,3 +38,4 @@ push:
 
 clean:
 	rm -rf kbot
+	docker rmi -f ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
